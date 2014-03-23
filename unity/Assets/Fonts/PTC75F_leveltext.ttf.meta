@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c00108811159ec4d8539aa0e94f856f
+TrueTypeFontImporter:
+  serializedVersion: 2
+  fontSize: 16
+  fontColor: {r: .111940324, g: .111940324, b: .111940324, a: 1}
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames: []
+  customCharacters: 
+  fontRenderingMode: 1
+  userData: 
