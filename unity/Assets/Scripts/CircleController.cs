@@ -70,25 +70,25 @@ public class CircleController : MonoBehaviour
 				buttonChild.SetActive(false);
 				blurChild.SetActive(false);
 
-				renderer.material = fullCircleMaterial;
+				GetComponent<Renderer>().material = fullCircleMaterial;
 				break;
 
 			case CircleType.Movable:
 				buttonChild.SetActive(true);
 				blurChild.SetActive(true);
 
-				renderer.material = regularCircleMaterial;
+				GetComponent<Renderer>().material = regularCircleMaterial;
 
 				switch (circleState)
 				{
 					case CircleState.Paused:
 						if (CanMove(true))
 						{
-							buttonChild.renderer.material = playMaterial;
+							buttonChild.GetComponent<Renderer>().material = playMaterial;
 						}
 						else if (CanMove(false))
 						{
-							buttonChild.renderer.material = rewindMaterial;
+							buttonChild.GetComponent<Renderer>().material = rewindMaterial;
 						}
 						else
 						{
@@ -100,7 +100,7 @@ public class CircleController : MonoBehaviour
 
 					case CircleState.Playing:
 					case CircleState.Rewinding:
-						buttonChild.renderer.material = pauseMaterial;
+						buttonChild.GetComponent<Renderer>().material = pauseMaterial;
 						break;
 				}
 
@@ -134,11 +134,27 @@ public class CircleController : MonoBehaviour
 
 		foreach (RaycastHit hit in hits)
 		{
-			if (hit.collider != this.collider)
+			if (hit.collider != this.GetComponent<Collider>())
 			{
 				if (hit.distance < closestDist)
 				{
-					Vector3 hereToThere = (hit.point - this.transform.position);
+					Vector3 hereToThere = Vector3.zero;
+
+					if (hit.collider.name.Contains("border"))
+					{
+						var rayhits = Physics.RaycastAll(new Ray(transform.position, actualVelocity.normalized), worldRadius);
+						foreach (var rayhit in rayhits)
+						{
+							if (rayhit.collider == hit.collider)
+							{
+								hereToThere = (rayhit.point - transform.position);
+							}
+						}
+					}
+					else
+					{
+						hereToThere = (hit.collider.transform.position - this.transform.position);
+					}
 
 					if (Vector3.Dot(hereToThere, actualVelocity) <= 0.0f)
 					{
@@ -227,11 +243,27 @@ public class CircleController : MonoBehaviour
 
 		foreach (RaycastHit hit in hits)
 		{
-			if (hit.collider != this.collider)
+			if (hit.collider != this.GetComponent<Collider>())
 			{
 				if (hit.distance < closestDist)
 				{
-					Vector3 hereToThere = (hit.point - this.transform.position);
+					Vector3 hereToThere = Vector3.zero;
+
+					if (hit.collider.name.Contains("border"))
+					{
+						var rayhits = Physics.RaycastAll(new Ray(transform.position, actualVelocity.normalized), worldRadius);
+						foreach (var rayhit in rayhits)
+						{
+							if (rayhit.collider == hit.collider)
+							{
+								hereToThere = (rayhit.point - transform.position);
+							}
+						}
+					}
+					else
+					{
+						hereToThere = (hit.collider.transform.position - this.transform.position);
+					}
 
 					if (Vector3.Dot(hereToThere, actualVelocity) <= 0.0f)
 					{
@@ -248,8 +280,6 @@ public class CircleController : MonoBehaviour
 
 		if (found)
 		{
-			//if (closest.distance < DISTANCE_EPSILON)
-			//if (closest.distance == 0.0f)
 			if (closest.distance <= epsilon * 1.01f)
 			{
 				return false;
@@ -267,7 +297,7 @@ public class CircleController : MonoBehaviour
 
 	private float GetWorldRadius()
 	{
-		return (this.transform.TransformPoint(Vector3.right * (collider as SphereCollider).radius) - this.transform.position).magnitude;
+		return (this.transform.TransformPoint(Vector3.right * (GetComponent<Collider>() as SphereCollider).radius) - this.transform.position).magnitude;
 	}
 
 	private void SwitchState(CircleState newState)
@@ -288,7 +318,7 @@ public class CircleController : MonoBehaviour
 
 			if (circleType == CircleType.Movable)
 			{
-				if (collider.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinfo, Mathf.Infinity))
+				if (GetComponent<Collider>().Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinfo, Mathf.Infinity))
 				{
 					switch (circleState)
 					{

@@ -9,7 +9,7 @@ public class ButtonTwitter : MonoBehaviour
 		{
 			RaycastHit hitinfo;
 
-			if (collider.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinfo, Mathf.Infinity))
+			if (GetComponent<Collider>().Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinfo, Mathf.Infinity))
 			{
 				// CLICKED
 

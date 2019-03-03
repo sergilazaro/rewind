@@ -31,11 +31,11 @@ public class ProgressBar : MonoBehaviour
 
 	private void UpdateAppearance()
 	{
-		frontBar.renderer.material = flatMaterial;
-		backBar.renderer.material = flatMaterial;
+		frontBar.GetComponent<Renderer>().material = flatMaterial;
+		backBar.GetComponent<Renderer>().material = flatMaterial;
 
-		frontBar.renderer.material.color = frontColor;
-		backBar.renderer.material.color = backColor;
+		frontBar.GetComponent<Renderer>().material.color = frontColor;
+		backBar.GetComponent<Renderer>().material.color = backColor;
 
 		float normalizedValue = (currentValue - minValue) / (maxValue - minValue);
 		normalizedValue = Mathf.Clamp01(normalizedValue);

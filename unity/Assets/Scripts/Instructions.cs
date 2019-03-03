@@ -56,24 +56,24 @@ public class Instructions : MonoBehaviour
 		textSeconds.text = tokens[0];
 		textHundredths.text = tokens[1];
 
-		textSeconds.renderer.material.color = Color.black;
-		textHundredths.renderer.material.color = Color.black;
+		textSeconds.GetComponent<Renderer>().material.color = Color.black;
+		textHundredths.GetComponent<Renderer>().material.color = Color.black;
 	}
 
 	private void MouseClick(bool left = true)
 	{
 		if (left)
 		{
-			mouse.renderer.material = mouseLeft;
+			mouse.GetComponent<Renderer>().material = mouseLeft;
 		}
 		else
 		{
-			mouse.renderer.material = mouseRight;
+			mouse.GetComponent<Renderer>().material = mouseRight;
 		}
 
 		ExecuteDelayedAction(0.3f, () =>
 		{
-			mouse.renderer.material = mouseNormal;
+			mouse.GetComponent<Renderer>().material = mouseNormal;
 		});
 	}
 
@@ -118,15 +118,15 @@ public class Instructions : MonoBehaviour
 		switch (state)
 		{
 			case CircleState.Paused:
-				circleButton.renderer.material = buttonPause;
+				circleButton.GetComponent<Renderer>().material = buttonPause;
 				break;
 
 			case CircleState.Playing:
-				circleButton.renderer.material = buttonPlay;
+				circleButton.GetComponent<Renderer>().material = buttonPlay;
 				break;
 
 			case CircleState.Rewinding:
-				circleButton.renderer.material = buttonRewind;
+				circleButton.GetComponent<Renderer>().material = buttonRewind;
 				break;
 		}
 	}
